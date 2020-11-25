@@ -24,7 +24,6 @@ public class AccountController {
 
 	@GetMapping(path = "/newuser/signup")
 	public ResponseEntity<Map<String, Object>> checkId(@RequestParam("user_id") String user_id) {
-		System.out.println("CONTROLLER : " + user_id);
 		if (user_id == null)
 			return null;
 		boolean success = accountService.checkId(user_id);
@@ -34,8 +33,7 @@ public class AccountController {
 	}
 
 	@PostMapping(path = "/newuser/signup")
-	public ResponseEntity<Map<String, Object>> signup(@RequestBody Account account) {
-		System.out.println("CONTROLLER : " + account.toString());
+	public ResponseEntity<Map<String, Object>> signup(Account account) {
 		boolean success = accountService.signup(account);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("success", success);
