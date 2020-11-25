@@ -17,23 +17,24 @@ import com.example.demo.service.AccountService;
 @RestController
 @CrossOrigin("*")
 public class AccountController {
-	
+
 	@Autowired
 	private AccountService accountService;
-	
-	@GetMapping(path="/newuser/signup")
-	public ResponseEntity<Map<String, Object>> checkId(@RequestParam("user_id") String user_id){
-		if(user_id==null)
+
+	@GetMapping(path = "/newuser/signup")
+	public ResponseEntity<Map<String, Object>> checkId(@RequestParam("user_id") String user_id) {
+		System.out.println("CONTROLLER : " + user_id);
+		if (user_id == null)
 			return null;
 		boolean success = accountService.checkId(user_id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("success", success);
 		return ResponseEntity.ok().body(map);
 	}
-	
-	@PostMapping(path="/newuser/signup")
-	public ResponseEntity<Map<String, Object>> signup(Account account){
-		System.out.println("CONTROLLER : "+account.toString());
+
+	@PostMapping(path = "/newuser/signup")
+	public ResponseEntity<Map<String, Object>> signup(Account account) {
+		System.out.println("CONTROLLER : " + account.toString());
 		boolean success = accountService.signup(account);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("success", success);
