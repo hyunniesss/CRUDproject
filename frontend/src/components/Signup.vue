@@ -9,6 +9,7 @@
     <input type="password" v-model="userPasswordCheck" />
     <label for="userName">이름</label>
     <input type="text" v-model="userName" />
+    <button @click="signup">회원가입</button>
   </div>
 </template>
 
@@ -22,8 +23,20 @@ export default {
       userPassword: "",
       userPasswordCheck: "",
       userName: "",
-      error: "",
+      error: {
+        id: "",
+        password: "",
+      },
     };
+  },
+  watch: {
+    userPasswordCheck() {
+      if (this.userPasswordCheck != this.userPassword) {
+        this.error.password = "비밀번호가 일치하지 않습니다.";
+      } else {
+        this.error.password = "";
+      }
+    },
   },
   methods: {
     checkID() {
@@ -32,10 +45,58 @@ export default {
       } else {
         axios
           .get(SERVER.URL + SERVER.ROUTES.SIGNUP, {
-            user_id: this.userId,
+            params: {
+              user_id: this.userId,
+            },
           })
           .then((res) => {
-              console.log(res)
+            if (res.data.success) {
+              this.error = "";
+            } else {
+              this.error = "이미 사용중인 아이디입니다.";
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    signup() {
+      let err = true;
+      let msg = "";
+      !this.userId &&
+        ((msg = "아이디를 입력하세요."),
+        (err = false),
+        this.$refs.userId.focus());
+      err &&
+        !this.userPassword &&
+        ((msg = "비밀번호를 입력하세요."),
+        (err = false),
+        this.$refs.userPassword.focus());
+      err &&
+        this.error.password &&
+        ((msg = "비밀번호를 재확인해주세요."),
+        (err = false),
+        this.$refs.userPasswordCheck.focus());
+      err &&
+        !this.userName &&
+        ((msg = "이름을 입력하세요."),
+        (err = false),
+        this.$refs.userName.focus());
+
+      if (!err) {
+        alert(msg);
+      } else {
+        axios
+          .post(SERVER.URL + SERVER.ROUTES.SIGNUP, {
+            body: {
+              userId: this.userId,
+              userPassword: this.userPassword,
+              userName: this.userName,
+            },
+          })
+          .then((res) => {
+            console.log(res);
           });
       }
     },
