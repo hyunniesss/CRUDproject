@@ -22,4 +22,17 @@ public class AccountServiceImpl implements AccountService {
 		return true;
 	}
 
+	@Override
+	public boolean signup(Account account) {
+		if(account.getUserId().contains("admin")) {
+			account.setUserRole("ADMIN");
+		}else {
+			account.setUserRole("USER");
+		}
+		Account result = accountRepo.save(account);
+		if(result!=null)
+			return true;
+		return false;
+	}
+
 }
