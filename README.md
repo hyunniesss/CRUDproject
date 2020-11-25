@@ -23,6 +23,10 @@
 ```
 [FrontEnd]
 npm i
+
+npm install vue-router
+npm install --save axios
+
 npm run serve 또는 yarn serve --port 포트넘버
 ```
 
