@@ -34,7 +34,6 @@ public class AccountController {
 
 	@PostMapping(path = "/newuser/signup")
 	public ResponseEntity<Map<String, Object>> signup(@RequestBody Account account) {
-		System.out.println(account.toString());
 		boolean success = accountService.signup(account);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("success", success);

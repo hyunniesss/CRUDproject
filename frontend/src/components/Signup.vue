@@ -109,13 +109,22 @@ export default {
         alert(msg);
       } else {
         axios
-          .post(SERVER.URL + SERVER.ROUTES.SIGNUP, {
-            userId: this.userId,
-            userPassword: this.userPassword,
-            userName: this.userName,
-          },{})
+          .post(
+            SERVER.URL + SERVER.ROUTES.SIGNUP,
+            {
+              userId: this.userId,
+              userPassword: this.userPassword,
+              userName: this.userName,
+            },
+            {}
+          )
           .then((res) => {
             console.log(res);
+            if (res.data.success) {
+              this.$emit("changeComponents", "Login");
+            } else {
+              alert("회원가입에 실패하였습니다.");
+            }
           });
       }
     },
