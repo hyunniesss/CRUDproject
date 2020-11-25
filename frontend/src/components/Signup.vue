@@ -108,13 +108,12 @@ export default {
       if (!err) {
         alert(msg);
       } else {
-        console.log(this.userId, " ", this.userPassword, " ", this.userName);
         axios
           .post(SERVER.URL + SERVER.ROUTES.SIGNUP, {
             userId: this.userId,
             userPassword: this.userPassword,
             userName: this.userName,
-          })
+          },{})
           .then((res) => {
             console.log(res);
           });
